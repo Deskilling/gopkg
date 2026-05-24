@@ -1,6 +1,7 @@
 package filesystem
 
 import (
+	"errors"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -18,6 +19,10 @@ func ReadDirectory(path string, extension string) (files []os.DirEntry, err erro
 	allFiles, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(allFiles) == 0 {
+		return nil, errors.New("no files found")
 	}
 
 	for _, file := range allFiles {
